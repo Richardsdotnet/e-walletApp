@@ -6,8 +6,6 @@ import com.richards.eWallet.models.Account;
 import com.richards.eWallet.repository.AccountsRepository;
 import com.richards.eWallet.utils.Mapper;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -156,13 +154,6 @@ public class EwalletAccountService implements AccountService {
         }
         return loginResponse;
 
-    }
-
-
-
-    @Override
-    public BigDecimal getBalance(String accountNumber) {
-        return null;
     }
 
     @Override

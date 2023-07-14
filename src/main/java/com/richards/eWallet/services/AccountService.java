@@ -17,8 +17,6 @@ public interface AccountService {
 
  TransferResponse transfer(TransferRequest transferRequest);
 
- BigDecimal getBalance(String accountNumber);
-
  List<Account> accounts();
 
  void deleteAll();
