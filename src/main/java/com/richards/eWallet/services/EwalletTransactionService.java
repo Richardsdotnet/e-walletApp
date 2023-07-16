@@ -1,12 +1,42 @@
 package com.richards.eWallet.services;
 
 import com.richards.eWallet.dto.request.TransactionRequest;
+import com.richards.eWallet.dto.response.TransactionResponse;
 import com.richards.eWallet.models.TransactionStatus;
+import com.richards.eWallet.models.Transactions;
 import com.richards.eWallet.repository.TransactionsRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class EwalletTransactionService implements TransactionService {
 
 private TransactionsRepository transactionsRepository;
+
+    @Override
+    public List<Transactions> transactions() {
+        return null;
+    }
+
+    @Override
+    public TransactionResponse findAllTransactions(TransactionRequest transactionRequest) {
+        return null;
+    }
+
+    @Override
+    public TransactionResponse credit(TransactionRequest transactionRequest) {
+        return null;
+    }
+
+    @Override
+    public TransactionResponse debit(TransactionRequest transactionRequest) {
+        return null;
+    }
+
+    @Override
+    public LocalDateTime findTransactionByDate(LocalDateTime transactionDate) {
+        return null;
+    }
 
     public class TransactionService {
         private static final int PAGE_SIZE = 10;
