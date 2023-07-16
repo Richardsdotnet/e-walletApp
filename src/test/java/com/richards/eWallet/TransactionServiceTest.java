@@ -1,7 +1,6 @@
 package com.richards.eWallet;
 
 import com.richards.eWallet.dto.request.TransactionRequest;
-import com.richards.eWallet.dto.response.TransactionResponse;
 import com.richards.eWallet.models.TransactionStatus;
 import com.richards.eWallet.models.TransactionType;
 import com.richards.eWallet.models.Transactions;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static com.richards.eWallet.models.TransactionStatus.SUCCESSFUL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -27,6 +27,7 @@ public class TransactionServiceTest {
 
     private TransactionRequest transactionRequest;
     private Transactions transactionResponse;
+    private TransactionStatus transactionStatus;
 
 
     @BeforeEach
@@ -38,7 +39,7 @@ public class TransactionServiceTest {
         transactionRequest = TransactionRequest.builder()
                 .type(TransactionType.CREDIT)
                 .amount(new BigDecimal("200"))
-                .status(TransactionStatus.SUCCESSFUL)
+                .status(SUCCESSFUL)
                 .senderAccountNumber("8144263789")
                 .receiverAccountNumber("8081493711")
                 .localDateTime(LocalDateTime.now())
@@ -46,13 +47,11 @@ public class TransactionServiceTest {
 
     }
     @Test
-    void findTransactionsByStatus(){
-        Transactions transactions = new Transactions();
-        transactionRequest = TransactionRequest.builder()
-                .status(TransactionStatus.SUCCESSFUL)
-                .build();
-        Transactions status = transactionService.findByTransactionStatus(transactionRequest);
-       // assertEquals( transactions.getStatus() );
+    void findTransactionsByStatus(TransactionStatus transactionStatus){
+        Transactions transactions= new Transactions();
+        transactions.setStatus(transactionStatus.getStatus());
+        transactionService.findByTransactionStatus(transactions.getStatus());
+        assertEquals(SUCCESSFUL, transactionStatus.getStatus() );
 
 
 

@@ -1,7 +1,7 @@
 package com.richards.eWallet.services;
 
 import com.richards.eWallet.dto.request.TransactionRequest;
-import com.richards.eWallet.models.Transactions;
+import com.richards.eWallet.models.TransactionStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,5 +14,5 @@ public interface TransactionService {
 
 
 
-    Transactions findByTransactionStatus(TransactionRequest transactionRequest);
+    TransactionStatus findByTransactionStatus(TransactionStatus transactionStatus);
 }
