@@ -11,11 +11,20 @@ import java.util.List;
 
 @Service
 public interface TransactionService {
-    List<Transactions> transactions();
-    TransactionResponse findAllTransactions(TransactionRequest transactionRequest);
+
+     List<Transactions> transactions(int page);
+    TransactionResponse findAllTransactions(TransactionRequest transactionRequest, int page);
     TransactionResponse credit(TransactionRequest transactionRequest);
     TransactionResponse debit(TransactionRequest transactionRequest);
-    LocalDateTime findTransactionByDate(LocalDateTime transactionDate);
+    LocalDateTime findTransactionByDate(LocalDateTime transactionDate, int page);
+    List<Transactions> getAllTransactions();
+
+
+//    List<Transactions> transactions();
+//    TransactionResponse findAllTransactions(TransactionRequest transactionRequest);
+//    TransactionResponse credit(TransactionRequest transactionRequest);
+//    TransactionResponse debit(TransactionRequest transactionRequest);
+//    LocalDateTime findTransactionByDate(LocalDateTime transactionDate);
 
 
 
