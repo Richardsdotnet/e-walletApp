@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static com.richards.eWallet.models.TransactionStatus.SUCCESSFUL;
+import static com.richards.eWallet.models.TransactionType.CREDIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -37,7 +38,7 @@ public class TransactionServiceTest {
        // transactionResponse = new TransactionResponse();
 
         transactionRequest = TransactionRequest.builder()
-                .type(TransactionType.CREDIT)
+                .type(CREDIT)
                 .amount(new BigDecimal("200"))
                 .status(SUCCESSFUL)
                 .senderAccountNumber("8144263789")
@@ -47,11 +48,11 @@ public class TransactionServiceTest {
 
     }
     @Test
-    void findTransactionsByStatus(TransactionStatus transactionStatus){
-        Transactions transactions= new Transactions();
-        transactions.setStatus(transactionStatus.getStatus());
-        transactionService.findByTransactionStatus(transactions.getStatus());
-        assertEquals(SUCCESSFUL, transactionStatus.getStatus() );
+    void findTransactionsByType(Transactions transactionType){
+//        Transactions transactions= new Transactions();
+//        transactions.setType(transactionType.getType());
+        transactionService.getTransactionsByTransaction(transactionType.getType().toString());
+        assertEquals(CREDIT,transactionType.getType() );
 
 
 

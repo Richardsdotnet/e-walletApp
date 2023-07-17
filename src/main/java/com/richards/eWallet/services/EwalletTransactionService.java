@@ -2,13 +2,15 @@ package com.richards.eWallet.services;
 
 import com.richards.eWallet.dto.request.TransactionRequest;
 import com.richards.eWallet.dto.response.TransactionResponse;
-import com.richards.eWallet.models.TransactionStatus;
+import com.richards.eWallet.models.TransactionType;
 import com.richards.eWallet.models.Transactions;
 import com.richards.eWallet.repository.TransactionsRepository;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EwalletTransactionService implements TransactionService {
 
@@ -16,55 +18,78 @@ public class EwalletTransactionService implements TransactionService {
 
 private TransactionsRepository transactionsRepository;
 
-        public List<Transactions> transactions(int page) {
-            // Calculate the starting index based on the page number and page size
-            int startIndex = (page - 1) * PAGE_SIZE;
-            // Call the data access layer to retrieve the transactions from the starting index
-            List<Transactions> allTransactions = getAllTransactions(); // Replace this with your data access layer or service method to retrieve all transactions
-            // Extract the subset of transactions based on the starting index and page size
-            List<Transactions> paginatedTransactions = allTransactions.subList(startIndex, Math.min(startIndex + PAGE_SIZE, allTransactions.size()));
-            return paginatedTransactions;
-        }
 
-        public TransactionResponse findAllTransactions(TransactionRequest transactionRequest, int page) {
-            List<Transactions> paginatedTransactions = transactions(page);
-            return new TransactionResponse(paginatedTransactions);
-        }
-
-        public TransactionResponse credit(TransactionRequest transactionRequest) {
-            // Credit transaction logic goes here
-        }
-
-        public TransactionResponse debit(TransactionRequest transactionRequest) {
-            // Debit transaction logic goes here
-        return  null;
-        }
-
-        public LocalDateTime findTransactionByDate(LocalDateTime transactionDate, int page) {
-            // Call the data access layer or service method to find transactions by date
-            List<Transactions> transactionsByDate = findTransactionsByDate(transactionDate); // Replace this with your data access layer or service method
-            // Calculate the starting index based on the page number and page size
-            int startIndex = (page - 1) * PAGE_SIZE;
-            // Extract the subset of transactions based on the starting index and page size
-            List<Transactions> paginatedTransactions = transactionsByDate.subList(startIndex, Math.min(startIndex + PAGE_SIZE, transactionsByDate.size()));
-            return new TransactionResponse(paginatedTransactions);
-        }
-
-        // Dummy method to simulate retrieving all transactions
-        private List<Transactions> getAllTransactions() {
-            List<Transactions> allTransactions = new ArrayList<>();
-            // Add logic to retrieve all transactions from data source
-            // ...
-            return allTransactions;
-        }
-
-        // Dummy method to simulate finding transactions by date
-        private List<Transactions> findTransactionsByDate(LocalDateTime transactionDate) {
-            List<Transactions> transactionsByDate = new ArrayList<>();
-            // Add logic to find transactions by date from data source
-            // ...
-            return transactionsByDate;
-        }
+    @Override
+    public TransactionResponse save(TransactionRequest transactionRequest) {
+        return null;
     }
+
+    public List<Transactions> transactions(int page) {
+
+            int startIndex = (page - 1) * PAGE_SIZE;
+
+            List<Transactions> allTransactions = getAllTransactions();             return allTransactions.subList(startIndex, Math.min(startIndex + PAGE_SIZE, allTransactions.size()));
+        }
+
+    @Override
+    public Optional<List<TransactionResponse>> findAllTransactionsInBatchesOf(int number) {
+        return Optional.empty();
+    }
+
+    public Optional<List<TransactionResponse>> findAllTransactions(TransactionRequest transactionRequest, int page) {
+            List<Transactions> paginatedTransactions = transactions(page);
+            return Optional.empty();
+    }
+
+    public Optional<List<TransactionResponse>> getCreditRecordsRelatedToUserWith(String username) {
+        return Optional.empty();
+    }
+
+    public Optional<List<TransactionResponse>> getDebitRecordsRelatedToUserWith(String username) {
+        return  Optional.empty();
+    }
+
+    @Override
+    public Optional<List<TransactionResponse>> findAllTransactionsByDate(LocalDateTime transactionDate, int page) {
+        return null;
+    }
+
+    @Override
+    public Optional<List<TransactionResponse>> getTransactionsByTransaction(String transactionType) {
+        TransactionResponse transactionResponse = new TransactionResponse();
+        List<TransactionResponse> responseList =new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        Optional<List<Transactions>> foundTransactions = transactionsRepository.findTransactionsByType(TransactionType.valueOf(transactionType.toUpperCase()));
+        foundTransactions
+                .ifPresentOrElse(listOfTransactions -> {
+                    listOfTransactions
+                            .forEach(transaction -> {
+                                mapper.map(transaction, transactionResponse);
+                                responseList.add(transactionResponse);
+                            });
+                }, ()->{
+                    throw new RuntimeException("No Transaction Of Type " +transactionType.toUpperCase());
+                });
+        return Optional.of(responseList);
+    }
+
+    @Override
+    public List<Transactions> getAllTransactions() {
+        return null;
+    }
+
+    private Transactions allTransactionByDate(LocalDateTime localDateTime) {
+            return transactionsRepository.findTransactionsByDate(localDateTime);
+    }
+
+    /*Transactions transactionsByDate = transactionByDate(transactionRequest.getLocalDateTime());
+    int startIndex = (page - 1) * PAGE_SIZE;
+        int endIndex = Math.min(startIndex + PAGE_SIZE, allTransactionByDate(transactionRequest.getLocalDateTime()).size());
+        List<Transactions> paginatedTransactions = transactionsByDate.subList(startIndex, Math.min(startIndex + PAGE_SIZE, transactionsByDate.size()));
+        return new TransactionResponse(paginatedTransactions);
+    }
+*/
+
+}
 
 

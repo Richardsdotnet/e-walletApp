@@ -2,19 +2,17 @@ package com.richards.eWallet.models;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Objects;
 
 
 @Builder
 @Document
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-//@RequiredArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -24,9 +22,11 @@ public class Account {
     private String lastName;
     @Id
     private String id;
+    @Email(message = "Please enter a valid email address")
     private String email;
     private String dateOfBirth;
     @NonNull
+    @Indexed(unique = true)
     private String userName;
     private String password;
     @NonNull
@@ -34,17 +34,4 @@ public class Account {
     private String accountNumber;
     private String Address;
     private String pin;
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "balance=" + balance +
-                ", accountNumber='" + accountNumber + '\'' +
-                ", Address='" + Address + '\'' +
-                ",first name "+ firstName+
-
-                '}';
-    }
-
-
 }
