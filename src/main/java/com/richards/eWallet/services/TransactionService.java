@@ -14,11 +14,11 @@ public interface TransactionService {
 
     TransactionResponse save(TransactionRequest transactionRequest);
     List<Transactions> transactions(int page);
-    Optional<List<TransactionResponse>> findAllTransactionsInBatchesOf(int number);
-    Optional<List<TransactionResponse>> getCreditRecordsRelatedToUserWith(String username);
-    Optional<List<TransactionResponse>> getDebitRecordsRelatedToUserWith(String username);
-    Optional<List<TransactionResponse>> findAllTransactionsByDate(LocalDateTime transactionDate, int page);
-    Optional<List<TransactionResponse>> getTransactionsByTransaction(String transactionType);
+    Optional<Object> findAllTransactionsInBatchesOf(int number);
+    Optional<Object> getCreditRecordsRelatedToUserWith(String username);
+    Optional<Object> getDebitRecordsRelatedToUserWith(String username);
+    Optional<Object> findAllTransactionsByDate(LocalDateTime transactionDate, int page);
+    Optional<Object> getTransactionsByTransaction(String transactionType);
     List<Transactions> getAllTransactions();
 
 

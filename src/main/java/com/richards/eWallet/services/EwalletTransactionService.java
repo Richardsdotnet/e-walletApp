@@ -25,37 +25,36 @@ private TransactionsRepository transactionsRepository;
     }
 
     public List<Transactions> transactions(int page) {
-
             int startIndex = (page - 1) * PAGE_SIZE;
-
-            List<Transactions> allTransactions = getAllTransactions();             return allTransactions.subList(startIndex, Math.min(startIndex + PAGE_SIZE, allTransactions.size()));
+            List<Transactions> allTransactions = transactionsRepository.findAll();
+            return allTransactions.subList(startIndex, Math.min(startIndex + PAGE_SIZE, allTransactions.size()));
         }
 
     @Override
-    public Optional<List<TransactionResponse>> findAllTransactionsInBatchesOf(int number) {
+    public Optional<Object> findAllTransactionsInBatchesOf(int number) {
         return Optional.empty();
     }
 
-    public Optional<List<TransactionResponse>> findAllTransactions(TransactionRequest transactionRequest, int page) {
+    public Optional<TransactionResponse> findAllTransactions(TransactionRequest transactionRequest, int page) {
             List<Transactions> paginatedTransactions = transactions(page);
             return Optional.empty();
     }
 
-    public Optional<List<TransactionResponse>> getCreditRecordsRelatedToUserWith(String username) {
+    public Optional<Object> getCreditRecordsRelatedToUserWith(String username) {
         return Optional.empty();
     }
 
-    public Optional<List<TransactionResponse>> getDebitRecordsRelatedToUserWith(String username) {
+    public Optional<Object> getDebitRecordsRelatedToUserWith(String username) {
         return  Optional.empty();
     }
 
     @Override
-    public Optional<List<TransactionResponse>> findAllTransactionsByDate(LocalDateTime transactionDate, int page) {
-        return null;
+    public Optional<Object> findAllTransactionsByDate(LocalDateTime transactionDate, int page) {
+        return Optional.empty();
     }
 
     @Override
-    public Optional<List<TransactionResponse>> getTransactionsByTransaction(String transactionType) {
+    public Optional<Object> getTransactionsByTransaction(String transactionType) {
         TransactionResponse transactionResponse = new TransactionResponse();
         List<TransactionResponse> responseList =new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
