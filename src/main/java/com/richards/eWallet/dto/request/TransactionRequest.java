@@ -21,5 +21,5 @@ public class TransactionRequest {
     private BigDecimal amount;
     private TransactionType type;
     private TransactionStatus status;
-    private LocalDateTime localDateTime;
+    private LocalDateTime transactionDate;
 }

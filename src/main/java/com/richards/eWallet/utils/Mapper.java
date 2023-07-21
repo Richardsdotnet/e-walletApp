@@ -2,7 +2,9 @@ package com.richards.eWallet.utils;
 
 import com.richards.eWallet.dto.request.RegistrationRequest;
 import com.richards.eWallet.dto.response.RegistrationResponse;
+import com.richards.eWallet.dto.response.TransactionResponse;
 import com.richards.eWallet.models.Account;
+import com.richards.eWallet.models.Transactions;
 
 import java.math.BigDecimal;
 
@@ -26,5 +28,14 @@ public class Mapper {
         registrationResponse.setUserName(account.getUserName());
         registrationResponse.setPassword(account.getPassword());
         return registrationResponse;
+    }
+
+    public static TransactionResponse map(Transactions transaction) {
+        return TransactionResponse.builder()
+                .message("Transaction Found")
+                .senderAccountNumber(transaction.getSenderAccountNumber())
+                .receiverAccountNumber(transaction.getReceiverAccountNumber())
+                .id(transaction.getId())
+                .build();
     }
 }

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
+
 public class Transactions {
     @Id
     private String id;
@@ -21,5 +22,5 @@ public class Transactions {
     private BigDecimal amount;
     private TransactionType type;
     private TransactionStatus status;
-    private  LocalDateTime localDateTime;
+    private  LocalDateTime transactionDate;
 }
