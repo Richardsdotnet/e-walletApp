@@ -5,6 +5,8 @@ import com.richards.eWallet.dto.response.TransactionResponse;
 import com.richards.eWallet.models.TransactionStatus;
 import com.richards.eWallet.models.TransactionType;
 import com.richards.eWallet.models.Transactions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDateTime;
@@ -16,7 +18,11 @@ public interface TransactionsRepository extends MongoRepository<Transactions, St
 
     List<Transactions> findTransactionsByType(TransactionType type);
     List<Transactions> findTransactionsByTransactionDate(LocalDateTime localDateTime);
+
+    Page<Transactions> findTransactionsById(Long userId, Pageable pageable);
 }
+
+
 
 
 

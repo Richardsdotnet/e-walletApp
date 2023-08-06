@@ -9,7 +9,10 @@ import com.richards.eWallet.repository.TransactionsRepository;
 import com.richards.eWallet.utils.Mapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Repository
 @AllArgsConstructor
 @Slf4j
 
@@ -26,7 +29,7 @@ import java.util.Optional;
 public class EWalletTransactionService implements TransactionService {
 
     private final TransactionsRepository transactionsRepository;
-    private static final int PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 10;
 
 
 
@@ -62,15 +65,33 @@ public class EWalletTransactionService implements TransactionService {
     }
 
     public List<Transactions> transactions(int page) {
-            int startIndex = (page - 1) * PAGE_SIZE;
+            int startIndex = (page - 1) * DEFAULT_PAGE_SIZE;
             List<Transactions> allTransactions = transactionsRepository.findAll();
-            return allTransactions.subList(startIndex, Math.min(startIndex + PAGE_SIZE, allTransactions.size()));
+            return allTransactions.subList(startIndex, Math.min(startIndex + DEFAULT_PAGE_SIZE, allTransactions.size()));
         }
 
     @Override
     public Optional<Object> findAllTransactionsInBatchesOf(int number) {
         return Optional.empty();
     }
+
+    @Override
+    public Page<Transactions> findAllTransactionsByUserId(Long userId, int pageNumber) {
+
+            if (pageNumber < 1) {
+                throw new IllegalArgumentException("Page number must be greater than or equal to 1.");
+            }
+
+            Pageable pageable = PageRequest.of(pageNumber - 1, DEFAULT_PAGE_SIZE);
+            Page<Transactions> transactionsPage = transactionsRepository.findTransactionsById(userId, pageable);
+
+            if (pageNumber > transactionsPage.getTotalPages()) {
+                throw new IllegalArgumentException("Requested page does not exist.");
+            }
+
+            return transactionsPage;
+        }
+
 
     public Optional<TransactionResponse> findAllTransactions(TransactionRequest transactionRequest, int page) {
             List<Transactions> paginatedTransactions = transactions(page);
@@ -91,7 +112,7 @@ public class EWalletTransactionService implements TransactionService {
     }
 
     @Override
-    public Optional<Object> getTransactionsByTransaction(String transactionType) {
+    public Transactions getTransactionsByTransaction(String transactionType) {
 //        TransactionResponse transactionResponse = new TransactionResponse();
 //        List<TransactionResponse> responseList =new ArrayList<>();
 //        ModelMapper mapper = new ModelMapper();
@@ -107,7 +128,7 @@ public class EWalletTransactionService implements TransactionService {
 //                    throw new RuntimeException("No Transaction Of Type " +transactionType.toUpperCase());
 //                });
 //        return Optional.of(responseList);
-    return Optional.empty();}
+    return null;}
 
     @Override
     public List<TransactionResponse> getAllTransactions() {

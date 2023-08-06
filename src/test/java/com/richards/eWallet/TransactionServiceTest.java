@@ -2,7 +2,9 @@ package com.richards.eWallet;
 
 import com.richards.eWallet.dto.request.TransactionRequest;
 import com.richards.eWallet.dto.response.TransactionResponse;
+import com.richards.eWallet.models.Account;
 import com.richards.eWallet.models.TransactionStatus;
+import com.richards.eWallet.models.Transactions;
 import com.richards.eWallet.repository.TransactionsRepository;
 import com.richards.eWallet.services.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransactionServiceTest {
 
-    @Autowired
-    private TransactionsRepository transactionsRepository;
+
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private TransactionsRepository transactionsRepository;
 
     private TransactionResponse transactionResponse;
     private TransactionStatus transactionStatus;
@@ -52,10 +55,8 @@ public class TransactionServiceTest {
     }
     @Test
     void findTransactionsByType(){
-//        Transactions transactions= new Transactions();
-//        transactions.setType(transactionType.getType());
-        Optional<Object> transactions = transactionService.getTransactionsByTransaction(CREDIT.toString());
-//        assertEquals(CREDIT, );
+        Transactions transactions = transactionService.getTransactionsByTransaction(CREDIT.toString());
+        assertEquals(CREDIT,transactions.getType() );
 
     }
     @Test

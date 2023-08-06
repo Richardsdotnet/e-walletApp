@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TransactionResponse {
-    private String id;
+    private Long id;
     private String senderAccountNumber;
     private String receiverAccountNumber;
     private String message;

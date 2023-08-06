@@ -1,26 +1,33 @@
 package com.richards.eWallet.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
-@Data
+
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 
 
 public class Transactions {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String senderAccountNumber;
     private String receiverAccountNumber;
     private BigDecimal amount;
     private TransactionType type;
     private TransactionStatus status;
     private  LocalDateTime transactionDate;
+
 }
